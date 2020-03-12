@@ -1,6 +1,10 @@
-FROM centos
+FROM centos:7
 
-RUN yum update -y && yum install -y epel-release && yum install -y git curl dpkg java java-devel unzip which && curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.rpm.sh | bash && yum install -y git-lfs && yum clean all
+RUN yum update -y && yum install -y epel-release && yum install -y git curl dpkg java java-devel unzip which && curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.rpm.sh | bash && yum install -y git-lfs \
+ && yum install -y gcc-c++ cairo-devel pango-devel libjpeg-turbo-devel giflib-devel \
+ && yum install pango.x86_64 libXcomposite.x86_64 libXcursor.x86_64 libXdamage.x86_64 libXext.x86_64 libXi.x86_64 libXtst.x86_64 cups-libs.x86_64 libXScrnSaver.x86_64 libXrandr.x86_64 GConf2.x86_64 alsa-lib.x86_64 atk.x86_64 gtk3.x86_64 -y \
+ && yum install ipa-gothic-fonts xorg-x11-fonts-100dpi xorg-x11-fonts-75dpi xorg-x11-utils xorg-x11-fonts-cyrillic xorg-x11-fonts-Type1 xorg-x11-fonts-misc -y \
+ && yum clean all
 ENV JAVA_HOME /etc/alternatives/jre_openjdk
 
 ARG user=jenkins
@@ -46,10 +50,10 @@ RUN curl -fsSL https://github.com/krallin/tini/releases/download/${TINI_VERSION}
 
 # jenkins version being bundled in this docker image
 ARG JENKINS_VERSION
-ENV JENKINS_VERSION ${JENKINS_VERSION:-2.204.2}
+ENV JENKINS_VERSION ${JENKINS_VERSION:-2.204.5}
 
 # jenkins.war checksum, download will be validated using it
-ARG JENKINS_SHA=4a90c54c065c8d297f7141174e0b04995f8e28d1ea41332bcc268af19f7371c7
+ARG JENKINS_SHA=94c73fa5b72e0a4eb52c5c99c08351f85a51d138f3dbaff6f64e4406353f839c
 
 # Can be used to customize where jenkins.war get downloaded from
 ARG JENKINS_URL=https://repo.jenkins-ci.org/public/org/jenkins-ci/main/jenkins-war/${JENKINS_VERSION}/jenkins-war-${JENKINS_VERSION}.war
