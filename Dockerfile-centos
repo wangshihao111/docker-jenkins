@@ -69,7 +69,7 @@ ENV JENKINS_INCREMENTALS_REPO_MIRROR=https://repo.jenkins-ci.org/incrementals
 RUN chown -R ${user} "$JENKINS_HOME" "$REF"
 
 ENV LANG zh_CN.UTF-8
-ENV JAVA_TOOL_OPTIONS "-Dfile.encoding=UTF-8"
+ENV JAVA_TOOL_OPTIONS "-Dhudson.model.DirectoryBrowserSupport.CSP= -Dfile.encoding=UTF-8"
 
 # for main web interface:
 EXPOSE ${http_port}
